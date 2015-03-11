@@ -1,5 +1,5 @@
 import pyglet #to play sound
-import sys, png, random #png used for the initial image
+import sys, random#, png #png used for the initial image
 from Tkinter import * #all for convenience 
 from PIL import Image, ImageTk, ImageOps 
 #Image is Pillow, ImageTK is the way to use images within tkinter, ImageOps used to work with the image after resizing
@@ -10,14 +10,20 @@ def main():
    can = Canvas(root, width=400, height=400, borderwidth=5, background='white').pack()
    
    def thatOne(op, ran):
-      song = pyglet.media.load('dog_growl3.wav')
-      song.play()
-      pyglet.app.run()
+      player = pyglet.media.Player()
+#      song.play()
+#      pyglet.app.run()
 
       if op == ran :
               print "correct"
+              correct = pyglet.media.load('correct.wav', streaming=False)
+              player.queue(correct)
+              player.play(correct)
       else :
               print "incorrect"
+              false = player.load('correct.wav', streaming=False)
+              player.queue(false)
+              player.play(false)
               
       print "{}{}{}{}".format("You chose ", op," correct was: ", ran)
       next = Button(root, text="Next Question", command=lambda: game()).pack(side=LEFT)
