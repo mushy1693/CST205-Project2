@@ -10,13 +10,26 @@ from PIL import Image, ImageTk, ImageOps
 #player.queue(correct)
 #player.queue(incorrect)
 
+count = 0
 
 def main():
    root = Tk()
    can = Canvas(root, width=400, height=400, borderwidth=5, background='white').pack()
+   result = []
+   
+   for x in range (1, 5):
+       ran = random.randint(1, 4)
+       while ran in result:
+        	ran = random.randint(1, 4)
+       result.append(ran)
+   print result   
+   
+   def randomization(c):
+      c = c-1
+      num = result[c]
+      return num
    
    def thatOne(op, ran):
-
       if op == ran :
               print "correct"
               player = pyglet.media.Player()
@@ -34,10 +47,9 @@ def main():
       next = Button(root, text="Next Question", command=lambda: game()).pack(side=LEFT)
    
    def game():  
-      ran = random.randrange(1,5)   
-      #if ran = prev:
-              #ran = random.randrange(1,5)
-      #else:                  
+      global count 
+      count += 1
+      ran = randomization(count)                   
       b1 = Button(root, text="Option1", command=lambda: thatOne(1, ran)).pack(side=LEFT)
       b2 = Button(root, text="Option2", command=lambda: thatOne(2, ran)).pack(side=LEFT)
       b3 = Button(root, text="Option3", command=lambda: thatOne(3, ran)).pack(side=LEFT)
