@@ -67,8 +67,9 @@ def main():
       ran = randomization(count) 
 
       def createButton(response , option):
-        return Button(root, text=response, command=lambda: thatOne(option, ran)).pack(side=LEFT)
-               
+             return Button(root, text=response, command=lambda: thatOne(option, ran)).pack(side=LEFT)
+                
+      play = Button(root, text="Play").pack(side=TOP)        
       b1 = createButton("Option1" , 1)
       b2 = createButton("Option2" , 2)
       b3 = createButton("Option3" , 3)
