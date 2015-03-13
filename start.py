@@ -10,6 +10,7 @@ from PIL import Image, ImageTk, ImageOps
 #player.queue(correct)
 #player.queue(incorrect)
 
+count = 0
 
 def main():
    root = Tk()
@@ -25,9 +26,22 @@ def main():
       toplevel = Toplevel()
       label1 = Label(toplevel, text=correctLabel, height=10, width=30)
       label1.pack()
-     
-   def thatOne(op, ran):
 
+   result = []
+   
+   for x in range (1, 5):
+       ran = random.randint(1, 4)
+       while ran in result:
+        	ran = random.randint(1, 4)
+       result.append(ran)
+   print result   
+   
+   def randomization(c):
+      c = c-1
+      num = result[c]
+      return num
+   
+   def thatOne(op, ran):
       if op == ran :
               print "correct"
               check("correct")
@@ -48,7 +62,9 @@ def main():
    
    def game(): 
 
-      ran = random.randrange(1,5) 
+      global count 
+      count += 1
+      ran = randomization(count) 
 
       def createButton(response , option):
         return Button(root, text=response, command=lambda: thatOne(option, ran)).pack(side=LEFT)
