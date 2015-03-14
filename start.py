@@ -15,6 +15,8 @@ count = 0
 def main():
    root = Tk()
    can = Canvas(root, width=400, height=400, borderwidth=5, background='white').pack()
+   
+   photo=PhotoImage(file="pic/Blank-Space.gif")
 
    def check(getCheck):
 
@@ -26,6 +28,11 @@ def main():
       toplevel = Toplevel()
       label1 = Label(toplevel, text=correctLabel, height=10, width=30)
       label1.pack()
+
+   def randomizer():
+      global count 
+      count += 1
+      return randomization(count)    
 
    result = []
    
@@ -40,20 +47,23 @@ def main():
       c = c-1
       num = result[c]
       return num
+
+   def createButton(response , option):
+      return Button(root, image = photo, text=response, command=lambda: thatOne(option, randomizer()))
    
    def thatOne(op, ran):
       if op == ran :
               print "correct"
               check("correct")
               player = pyglet.media.Player()
-              correct = pyglet.media.load('correct.wav', streaming=False)
+              correct = pyglet.media.load('sound/correct.wav', streaming=False)
               player.queue(correct)
               player.play()
       else :
               print "incorrect"
               check("incorrect")
               player = pyglet.media.Player()
-              false = pyglet.media.load('wrong.wav', streaming=False)
+              false = pyglet.media.load('sound/wrong.wav', streaming=False)
               player.queue(false)
               player.play()
               
@@ -61,18 +71,22 @@ def main():
       next = Button(root, text="Next Question", command=lambda: game()).pack(side=LEFT)
    
    def game(): 
-
-      global count 
-      count += 1
-      ran = randomization(count) 
-
-      def createButton(response , option):
-        return Button(root, text=response, command=lambda: thatOne(option, ran)).pack(side=LEFT)
-               
+      
       b1 = createButton("Option1" , 1)
+      b1.image = photo
+      b1.pack(side=LEFT) 
+
       b2 = createButton("Option2" , 2)
+      b2.image = photo
+      b2.pack(side=LEFT)
+
       b3 = createButton("Option3" , 3)
+      b3.image = photo
+      b3.pack(side=LEFT)
+
       b4 = createButton("Option4" , 4)
+      b4.image = photo
+      b4.pack(side=LEFT)
    
    game()
    root.mainloop()  
