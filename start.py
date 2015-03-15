@@ -71,7 +71,13 @@ def main():
       next = Button(root, text="Next Question", command=lambda: game()).pack(side=LEFT)
    
    def game(): 
-      
+
+      global count 
+      count += 1
+      ran = randomization(count) 
+                
+      play = Button(root, text="Play").pack(side=TOP)
+
       b1 = createButton("Option1" , 1)
       b1.image = photo
       b1.pack(side=LEFT) 
