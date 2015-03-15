@@ -1,14 +1,8 @@
 import pyglet #to play sound
-import sys, random#, png #png used for the initial image
+import sys, random, png #png used for the initial image
 from Tkinter import * #all for convenience 
 from PIL import Image, ImageTk, ImageOps 
 #Image is Pillow, ImageTK is the way to use images within tkinter, ImageOps used to work with the image after resizing
-
-#player = pyglet.media.Player()
-#correct = pyglet.media.load('correct.wav', streaming=False)
-#incorrect = pyglet.media.load('wrong.wav', streaming=False)
-#player.queue(correct)
-#player.queue(incorrect)
 
 count = 0
 
@@ -48,6 +42,14 @@ def main():
       num = result[c]
       return num
 
+   def buttonSounds():
+      global player
+      player = pyglet.media.Player()
+      correct = pyglet.media.load('sound/correct.wav', streaming=False)
+      incorrect = pyglet.media.load('sound/wrong.wav', streaming=False)
+      player.queue(correct)
+      player.queue(incorrect)
+
    def createButton(response , option):
       return Button(root, image = photo, text=response, command=lambda: thatOne(option, randomizer()))
    
@@ -55,16 +57,14 @@ def main():
       if op == ran :
               print "correct"
               check("correct")
-              player = pyglet.media.Player()
-              correct = pyglet.media.load('sound/correct.wav', streaming=False)
-              player.queue(correct)
+              buttonSounds()
               player.play()
+              
       else :
               print "incorrect"
               check("incorrect")
-              player = pyglet.media.Player()
-              false = pyglet.media.load('sound/wrong.wav', streaming=False)
-              player.queue(false)
+              buttonSounds()
+              player.next()
               player.play()
               
       print "{}{}{}{}".format("You chose ", op," correct was: ", ran)
