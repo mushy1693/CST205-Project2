@@ -71,10 +71,6 @@ def main():
       next = Button(root, text="Next Question", command=lambda: game()).pack(side=LEFT)
    
    def game(): 
-
-      global count 
-      count += 1
-      ran = randomization(count) 
                 
       play = Button(root, text="Play").pack(side=TOP)
 
