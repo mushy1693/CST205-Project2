@@ -6,12 +6,21 @@ from PIL import Image, ImageTk, ImageOps
 
 count = 0
 theAnswer = 0
+score = 0
 
 def main():
+
    root = Tk()
    can = Canvas(root, width=400, height=400, borderwidth=5, background='white').pack()
-   
-   photo=PhotoImage(file="pic/Blank-Space.gif")
+
+   albumCover = [
+
+      PhotoImage(file="pic/Blank-Space.gif"),
+      PhotoImage(file="pic/fifty-shades.gif"),
+      PhotoImage(file="pic/goodbye.gif"),
+      PhotoImage(file="pic/kate-perry.gif")
+
+   ]
 
    def check(getCheck):
 
@@ -48,6 +57,8 @@ def main():
    
    def thatOne(op, r):
       if op == r :
+              global score
+              score = score + 1
               print "correct"
               check("correct")
               buttonSounds()
@@ -62,34 +73,53 @@ def main():
               
       print "{}{}{}{}".format("You chose ", op," correct was: ", r)
    
-   def game(): 
+   def randomizer():
+      global count 
+      count += 1
+      global theAnswer
+      return randomization(count)
 
-   global count 
-   count += 1
-   global theAnswer
-   theAnswer = randomization(count)
-                
-   play = Button(root, text="Play").pack(side=TOP)
+   def createButton(response , option, album):
+      return Button(root, image = album, text=response, command=lambda: thatOne(option, randomizer()))
 
-   b1 = Button(root, image=photo, command=lambda: thatOne(1, theAnswer))
-   b1.image = photo
-   b1.pack(side=LEFT) 
+   def game():
 
-   b2 = Button(root, image=photo, command=lambda: thatOne(2, theAnswer))
-   b2.image = photo
-   b2.pack(side=LEFT)
+      def nextGame():
 
-   b3 = Button(root, image=photo, command=lambda: thatOne(3, theAnswer))
-   b3.image = photo
-   b3.pack(side=LEFT)
+        play.destroy()
+        l1.destroy()
+        b1.destroy()
+        b2.destroy()
+        b3.destroy()
+        b4.destroy()
+        next.destroy()
+        game()
 
-   b4 = Button(root, image=photo, command=lambda: thatOne(4, theAnswer))
-   b4.image = photo
-   b4.pack(side=LEFT)
-      
-   next = Button(root, text="Next Question", command=lambda: game())
-   next.pack(side=LEFT)
-   
+      play = Button(root, text="Play")
+      play.pack(side=TOP)
+
+      l1 = Label(root, text= "Score: " + str(score))
+      l1.pack(side = TOP)
+
+      b1 = createButton("Option1" , 1, albumCover[0])
+      b1.image = albumCover[0]
+      b1.pack(side=LEFT)
+
+      b2 = createButton("Option2" , 2, albumCover[1])
+      b2.image = albumCover[1]
+      b2.pack(side=LEFT)
+
+      b3 = createButton("Option3" , 3, albumCover[2])
+      b3.image = albumCover[2]
+      b3.pack(side=LEFT)
+
+      b4 = createButton("Option4" , 4, albumCover[3])
+      b4.image = albumCover[3]
+      b4.pack(side=LEFT)  
+        
+      next = Button(root, text="Next Question", command=lambda: nextGame())
+      next.pack(side=LEFT)
+  
    game()
    root.mainloop()  
 
