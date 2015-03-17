@@ -86,6 +86,10 @@ def main():
               
       print "{}{}{}{}".format("You chose ", op," correct was: ", r)
 
+   #destroy the label
+   def removeWidget(label):
+      label.destroy()
+
    # Keep track of when the scores changes the label will update every second
    def counter_label(label):
       def count():
@@ -128,8 +132,8 @@ def main():
    def game():
 
       # Destroy the title and play button when game start
-      title.destroy()
-      play.destroy()
+      removeWidget(title)
+      removeWidget(play)
 
       # Set the size and color of the root window
       root.geometry("%dx%d%+d%+d" % (900, 400, 0, 0))
@@ -138,35 +142,35 @@ def main():
       # destroy everything on the frame and move on to next game
       def nextGame():
 
-        l1.destroy()
-        b1.destroy()
-        b2.destroy()
-        b3.destroy()
-        b4.destroy()
-        next.destroy()
+        removeWidget(scoreLabel)
+        removeWidget(coverButton1)
+        removeWidget(coverButton2)
+        removeWidget(coverButton3)
+        removeWidget(coverButton4)
+        removeWidget(nextButton)
         game()
 
       # Creates label for displaying scores
-      l1 = Label(bottomFrame, text= "Score: " + str(score), font=("Helvetica", 25), background = "peachpuff4")
-      l1.pack(side = TOP)
-      counter_label(l1)
+      scoreLabel = Label(bottomFrame, text= "Score: " + str(score), font=("Helvetica", 25), background = "peachpuff4")
+      scoreLabel.pack(side = TOP)
+      counter_label(scoreLabel)
 
       # Create the 4 album cover buttons
-      b1 = createButton("Option1" , 1, albumCover[0])
-      createCoverAndPack(b1, 0)
+      coverButton1 = createButton("Option1" , 1, albumCover[0])
+      createCoverAndPack(coverButton1, 0)
 
-      b2 = createButton("Option2" , 2, albumCover[1])
-      createCoverAndPack(b2, 0)
+      coverButton2 = createButton("Option2" , 2, albumCover[1])
+      createCoverAndPack(coverButton2, 1)
 
-      b3 = createButton("Option3" , 3, albumCover[2])
-      createCoverAndPack(b3, 0)
+      coverButton3 = createButton("Option3" , 3, albumCover[2])
+      createCoverAndPack(coverButton3, 2)
 
-      b4 = createButton("Option4" , 4, albumCover[3])
-      createCoverAndPack(b4, 0)
+      coverButton4 = createButton("Option4" , 4, albumCover[3])
+      createCoverAndPack(coverButton4, 3)
       
       # Create the next question button
-      next = Button(topFrame, text="Next Question", command=lambda: nextGame(), font=("Helvetica", 16))
-      next.pack(side=LEFT)
+      nextButton = Button(topFrame, text="Next Question", command=lambda: nextGame(), font=("Helvetica", 16))
+      nextButton.pack(side=LEFT)
 
    #create random array
    createRandomArray()
