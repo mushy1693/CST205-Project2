@@ -6,11 +6,14 @@ from PIL import Image, ImageTk, ImageOps
 
 count = 0
 theAnswer = 0
+score = 0
 
 def main():
    root = Tk()
-   can = Canvas(root, width=400, height=400, borderwidth=5, background='white').pack()
-   
+   can = Canvas(root, width=400, height=400, borderwidth=5, background='white')
+   can.pack()
+   global score
+   item = can.create_text(100, 100, text=("Score",score), font=("Comic Sans",25))
    photo=PhotoImage(file="pic/Blank-Space.gif")
 
    def check(getCheck):
@@ -52,6 +55,10 @@ def main():
               check("correct")
               buttonSounds()
               player.play()
+              global score
+              score += 1
+              print "{}".format(score)
+              can.itemconfig(item, text=("Score",score))
               
       else :
               print "incorrect"
@@ -63,11 +70,10 @@ def main():
       print "{}{}{}{}".format("You chose ", op," correct was: ", r)
    
    def game(): 
-
-   global count 
-   count += 1
-   global theAnswer
-   theAnswer = randomization(count)
+   	  global count
+   	  count += 1
+   	  global theAnswer
+   	  theAnswer = randomization(count)
                 
    play = Button(root, text="Play").pack(side=TOP)
 
