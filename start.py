@@ -11,6 +11,7 @@ score = 0
 def main():
 
    root = Tk()
+   
    can = Canvas(root, width=400, height=400, borderwidth=5, background='white').pack()
 
    albumCover = [
@@ -63,6 +64,10 @@ def main():
               check("correct")
               buttonSounds()
               player.play()
+              global score
+              score += 1
+              print "{}".format(score)
+              can.itemconfig(item, text=("Score",score))
               
       else :
               print "incorrect"
@@ -72,7 +77,7 @@ def main():
               player.play()
               
       print "{}{}{}{}".format("You chose ", op," correct was: ", r)
-   
+
    def randomizer():
       global count 
       count += 1
@@ -119,7 +124,7 @@ def main():
         
       next = Button(root, text="Next Question", command=lambda: nextGame())
       next.pack(side=LEFT)
-  
+
    game()
    root.mainloop()  
 
