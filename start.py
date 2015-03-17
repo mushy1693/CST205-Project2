@@ -64,10 +64,6 @@ def main():
               check("correct")
               buttonSounds()
               player.play()
-              global score
-              score += 1
-              print "{}".format(score)
-              can.itemconfig(item, text=("Score",score))
               
       else :
               print "incorrect"
