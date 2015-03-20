@@ -34,6 +34,9 @@ def main():
       PhotoImage(file="pic/kate-perry.gif")
 
    ]
+   
+   songs = [
+   ]
 
    # Check to see if the album is correct or incorrect
    # Show popup alerting user the result they got
@@ -153,8 +156,13 @@ def main():
            removeWidget(coverButton2)
            removeWidget(coverButton3)
            removeWidget(coverButton4)
+           removeWidget(songButton)
            removeWidget(nextButton)
            game()
+           
+      def theSong():
+   	       #this'll be where the song goes through for play
+   	       print "playing song"  
 
       # Creates label for displaying scores
       scoreLabel = Label(bottomFrame, text= "Score: " + str(score), font=("Helvetica", 25), background = "peachpuff4")
@@ -173,6 +181,9 @@ def main():
 
       coverButton4 = createButton("Option4" , 4, albumCover[3])
       createCoverAndPack(coverButton4, 3)
+      
+      songButton = Button(topFrame, text="Play Song", command=lambda: theSong(), font=("Helvetica", 16))
+      songButton.pack(side=LEFT)
       
       # Create the next question button
       nextButton = Button(topFrame, text="Next Question", command=lambda: nextGame(), font=("Helvetica", 16))
