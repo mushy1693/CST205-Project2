@@ -1,5 +1,6 @@
 import pyglet #to play sound
-import sys, os, random, png #png used for the initial image
+import sys, os, random, png  #png used for the initial image
+from random import randrange #used for music
 from Tkinter import * #all for convenience 
 from PIL import Image, ImageTk, ImageOps 
 #Image is Pillow, ImageTK is the way to use images within tkinter, ImageOps used to work with the image after resizing
@@ -59,33 +60,75 @@ def main():
         while ran in result:
         	 ran = random.randint(1, 4)
         result.append(ran)
-      print result   
+      print result
 
    # Create the sounds when answered correctly or incorrectly
-   def buttonSounds():
+   def buttonSounds(y):
       global player
       player = pyglet.media.Player()
-      correct = pyglet.media.load('sound/correct.wav', streaming=False)
-      incorrect = pyglet.media.load('sound/wrong.wav', streaming=False)
-      player.queue(correct)
-      player.queue(incorrect)
+
+      if (y==1): #plays correct
+         correct = pyglet.media.load('sound/correct.mp3', streaming=False)
+         player.queue(correct)
+      else:      #plays incorrect
+         incorrect = pyglet.media.load('sound/wrong.mp3', streaming=False)
+         player.queue(incorrect)
+
+   #Plays the song once the Play Song button is clicked
+   def theSong(array):
+         print "playing song" , array[count]
+         songPlayer(array[count])                #takes in the element of the random array
+         ran_pitch = random.uniform(0.5, 1.7)    #randomizer for pitch
+         if ran_pitch == 1.0:
+            ran_pitch = random.uniform(0.5, 1.7) #randomize again if pitch is normal
+         music.pitch = ran_pitch
+          
+         ran_seek = randrange(30,120) #randomizer for song position
+         music.seek(ran_seek)         
+         timeGAP = music.time + 20    #plays the song for 20 secs
+         
+         while (music.time < timeGAP): #plays until the 20 secs are up
+            music.play()
+         music.pause() #ends the song once out of the loop
+
+   # Creates a music player for the songs
+   def songPlayer(x):
+      global music
+      music = pyglet.media.Player()
+
+      if (x==1): #loads the song if it satisfies condition
+        sng1 = pyglet.media.load('songs/taylor.mp3', streaming=False)
+        music.queue(sng1)
+
+      elif (x==2):
+         sng2 = pyglet.media.load('songs/ellie.mp3', streaming=False)
+         music.queue(sng2)
+
+      elif (x==3):
+         sng3 = pyglet.media.load('songs/glenn.mp3', streaming=False)
+         music.queue(sng3)
+
+      elif (x==4):
+         sng4 = pyglet.media.load('songs/katy.mp3', streaming=False)
+         music.queue(sng4)
    
    # Keep track of score
    # Start the sound
    def thatOne(op, r):
       if op == r :
+              y = 1 #if its true
               global score
               score = score + 1
               print "correct"
               check("correct")
-              buttonSounds()
+              buttonSounds(y)
               player.play()
               
       else :
+              y = 0 #if its false
               print "incorrect"
               check("incorrect")
-              buttonSounds()
-              player.next()
+              buttonSounds(y)
               player.play()
               
       print "{}{}{}{}".format("You chose ", op," correct was: ", r)
@@ -159,10 +202,7 @@ def main():
            removeWidget(songButton)
            removeWidget(nextButton)
            game()
-           
-      def theSong():
-   	       #this'll be where the song goes through for play
-   	       print "playing song"  
+
 
       # Creates label for displaying scores
       scoreLabel = Label(bottomFrame, text= "Score: " + str(score), font=("Helvetica", 25), background = "peachpuff4")
@@ -182,7 +222,7 @@ def main():
       coverButton4 = createButton("Option4" , 4, albumCover[3])
       createCoverAndPack(coverButton4, 3)
       
-      songButton = Button(topFrame, text="Play Song", command=lambda: theSong(), font=("Helvetica", 16))
+      songButton = Button(topFrame, text="Play Song", command=lambda: theSong(result), font=("Helvetica", 16))
       songButton.pack(side=LEFT)
       
       # Create the next question button
