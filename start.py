@@ -1,6 +1,7 @@
 import pyglet #to play sound
 import sys, os, random, png  #png used for the initial image
 from random import randrange #used for music
+from random import shuffle
 from Tkinter import * #all for convenience 
 from PIL import Image, ImageTk, ImageOps 
 #Image is Pillow, ImageTK is the way to use images within tkinter, ImageOps used to work with the image after resizing
@@ -29,10 +30,10 @@ def main():
    # Holds all the album cover
    albumCover = [
 
-      PhotoImage(file="pic/Blank-Space.gif"),
-      PhotoImage(file="pic/fifty-shades.gif"),
-      PhotoImage(file="pic/goodbye.gif"),
-      PhotoImage(file="pic/kate-perry.gif")
+      PhotoImage(file="pic/bieber.gif"),
+      PhotoImage(file="pic/derulo.gif"),
+      PhotoImage(file="pic/miley.gif"),
+      PhotoImage(file="pic/iyaz.gif")
 
    ]
    
@@ -53,7 +54,7 @@ def main():
       label1.pack()
    
    # Creates a random array to hold music test values
-   #http://stackoverflow.com/questions/21744963/how-to-generate-a-range-of-random-numbers-in-python-without-repetition 
+   # http://stackoverflow.com/questions/21744963/how-to-generate-a-range-of-random-numbers-in-python-without-repetition 
    def createRandomArray():
       for x in range (1, 5):
         ran = random.randint(1, 4)
@@ -68,28 +69,28 @@ def main():
       player = pyglet.media.Player()
 
       if (y==1): #plays correct
-         correct = pyglet.media.load('sound/correct.mp3', streaming=False)
-         player.queue(correct)
+        correct = pyglet.media.load('sound/correct.mp3', streaming=False)
+        player.queue(correct)
       else:      #plays incorrect
-         incorrect = pyglet.media.load('sound/wrong.mp3', streaming=False)
-         player.queue(incorrect)
+        incorrect = pyglet.media.load('sound/wrong.mp3', streaming=False)
+        player.queue(incorrect)
 
-   #Plays the song once the Play Song button is clicked
+   # Plays the song once the Play Song button is clicked
    def theSong(array):
-         print "playing song" , array[count]
-         songPlayer(array[count])                #takes in the element of the random array
-         ran_pitch = random.uniform(0.5, 1.7)    #randomizer for pitch
-         if ran_pitch == 1.0:
-            ran_pitch = random.uniform(0.5, 1.7) #randomize again if pitch is normal
-         music.pitch = ran_pitch
+      print "playing song" , array[count]
+      songPlayer(array[count])                #takes in the element of the random array
+      ran_pitch = random.uniform(0.5, 1.7)    #randomizer for pitch
+      if ran_pitch == 1.0:
+         ran_pitch = random.uniform(0.5, 1.7) #randomize again if pitch is normal
+      music.pitch = ran_pitch
           
-         ran_seek = randrange(30,120) #randomizer for song position
-         music.seek(ran_seek)         
-         timeGAP = music.time + 20    #plays the song for 20 secs
+      ran_seek = randrange(30,120) #randomizer for song position
+      music.seek(ran_seek)         
+      timeGAP = music.time + 7    #plays the song for 20 secs
          
-         while (music.time < timeGAP): #plays until the 20 secs are up
-            music.play()
-         music.pause() #ends the song once out of the loop
+      while (music.time < timeGAP): #plays until the 20 secs are up
+         music.play()
+      music.pause() #ends the song once out of the loop
 
    # Creates a music player for the songs
    def songPlayer(x):
@@ -97,20 +98,20 @@ def main():
       music = pyglet.media.Player()
 
       if (x==1): #loads the song if it satisfies condition
-        sng1 = pyglet.media.load('songs/taylor.mp3', streaming=False)
-        music.queue(sng1)
+         song1 = pyglet.media.load('songs/baby.mp3', streaming=False)
+         music.queue(song1)
 
       elif (x==2):
-         sng2 = pyglet.media.load('songs/ellie.mp3', streaming=False)
-         music.queue(sng2)
+         song2 = pyglet.media.load('songs/whatcha-say.mp3', streaming=False)
+         music.queue(song2)
 
       elif (x==3):
-         sng3 = pyglet.media.load('songs/glenn.mp3', streaming=False)
-         music.queue(sng3)
+         song3 = pyglet.media.load('songs/wrecking-ball.mp3', streaming=False)
+         music.queue(song3)
 
       elif (x==4):
-         sng4 = pyglet.media.load('songs/katy.mp3', streaming=False)
-         music.queue(sng4)
+         song4 = pyglet.media.load('songs/replay.mp3', streaming=False)
+         music.queue(song4)
    
    # Keep track of score
    # Start the sound
@@ -133,9 +134,9 @@ def main():
               
       print "{}{}{}{}".format("You chose ", op," correct was: ", r)
 
-   #destroy the label
-   def removeWidget(label):
-      label.destroy()
+   # destroy the label
+   def removeWidget(widget):
+      widget.destroy()
 
    # Keep track of when the scores changes the label will update every second
    def counter_label(label):
@@ -167,11 +168,19 @@ def main():
       button.image = albumCover[coverIndex]
       button.pack(side=LEFT)
 
+   def endgame():
+      #https://www.daniweb.com/software-development/python/code/260268/restart-your-python-program-
+      python = sys.executable
+      os.execl(python, python, * sys.argv)
+
+   def exit():
+      sys.exit()
+
    # Create main title
    title = Label(topFrame, text= "Music Trivia", font=("Helvetica", 40), height = 5 , background = "goldenrod4")
    title.pack(side = TOP)
 
-   # Create play button
+   # Create play and quit button
    play = Button(bottomFrame, text="Play", command=lambda: game(), font=("Helvetica", 18))
    play.pack(side=TOP)
    quit = Button(bottomFrame, text="Quit", command=lambda: exit(), font=("Helvetica", 18))
@@ -203,6 +212,9 @@ def main():
            removeWidget(nextButton)
            game()
 
+      # Shuffle cover
+      y = [i for i in range(4)]
+      random.shuffle(y)
 
       # Creates label for displaying scores
       scoreLabel = Label(bottomFrame, text= "Score: " + str(score), font=("Helvetica", 25), background = "peachpuff4")
@@ -210,32 +222,25 @@ def main():
       counter_label(scoreLabel)
 
       # Create the 4 album cover buttons
-      coverButton1 = createButton("Option1" , 1, albumCover[0])
-      createCoverAndPack(coverButton1, 0)
+      coverButton1 = createButton("Option1" , y[0]+1, albumCover[y[0]])
+      createCoverAndPack(coverButton1, y[0])
 
-      coverButton2 = createButton("Option2" , 2, albumCover[1])
-      createCoverAndPack(coverButton2, 1)
+      coverButton2 = createButton("Option2" , y[1]+1, albumCover[y[1]])
+      createCoverAndPack(coverButton2, y[1])
 
-      coverButton3 = createButton("Option3" , 3, albumCover[2])
-      createCoverAndPack(coverButton3, 2)
+      coverButton3 = createButton("Option3" , y[2]+1, albumCover[y[2]])
+      createCoverAndPack(coverButton3, y[2])
 
-      coverButton4 = createButton("Option4" , 4, albumCover[3])
-      createCoverAndPack(coverButton4, 3)
+      coverButton4 = createButton("Option4" , y[3]+1, albumCover[y[3]])
+      createCoverAndPack(coverButton4, y[3])
       
+      # Create the song button
       songButton = Button(topFrame, text="Play Song", command=lambda: theSong(result), font=("Helvetica", 16))
       songButton.pack(side=LEFT)
       
       # Create the next question button
       nextButton = Button(topFrame, text="Next Question", command=lambda: nextGame(), font=("Helvetica", 16))
       nextButton.pack(side=LEFT)
-     
-   def endgame():
-      #https://www.daniweb.com/software-development/python/code/260268/restart-your-python-program-
-      python = sys.executable
-      os.execl(python, python, * sys.argv)
-      
-   def exit():
-      sys.exit()
 
    #create random array
    createRandomArray()
