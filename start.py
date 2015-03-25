@@ -14,10 +14,19 @@ result = []
 
 def main():
 
+   def center_window(w=300, h=200):
+       # get screen width and height
+       ws = root.winfo_screenwidth()
+       hs = root.winfo_screenheight()
+       # calculate position x, y
+       x = (ws/2) - (w/2)
+       y = (hs/2) - (h/2)
+       root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+       
    # Creates root frame and gives it a dimension and background color
    root = Tk()
-   root.geometry("%dx%d%+d%+d" % (400, 400, 0, 0))
    root.configure(background='deepskyblue2')
+   center_window(400, 400)
 
    # Creates the top Frame
    topFrame = Frame(root)
@@ -86,9 +95,9 @@ def main():
           
       ran_seek = randrange(30,120) #randomizer for song position
       music.seek(ran_seek)         
-      timeGAP = music.time + 7    #plays the song for 20 secs
+      timeGAP = music.time + 7    #plays the song for 7 secs
          
-      while (music.time < timeGAP): #plays until the 20 secs are up
+      while (music.time < timeGAP): #plays until the 7 secs are up
          music.play()
       music.pause() #ends the song once out of the loop
 
@@ -194,8 +203,8 @@ def main():
       removeWidget(quit)
 
       # Set the size and color of the root window
-      root.geometry("%dx%d%+d%+d" % (900, 400, 0, 0))
       root.configure(background='burlywood')
+      center_window(900, 400)
 
       # destroy everything on the frame and move on to next game
       def nextGame():
