@@ -36,9 +36,6 @@ def main():
       PhotoImage(file="pic/iyaz.gif")
 
    ]
-   
-   songs = [
-   ]
 
    # Check to see if the album is correct or incorrect
    # Show popup alerting user the result they got
@@ -186,6 +183,9 @@ def main():
    quit = Button(bottomFrame, text="Quit", command=lambda: exit(), font=("Helvetica", 18))
    quit.pack(side=BOTTOM)
 
+   playimg = PhotoImage(file="pic/play-button.gif")
+   nextimg = PhotoImage(file="pic/next-button.gif")
+
    # Define game feature function
    def game():
       # Destroy the title and play button when game start
@@ -235,11 +235,11 @@ def main():
       createCoverAndPack(coverButton4, y[3])
       
       # Create the song button
-      songButton = Button(topFrame, text="Play Song", command=lambda: theSong(result), font=("Helvetica", 16))
+      songButton = Button(topFrame, image=playimg, command=lambda: theSong(result))
       songButton.pack(side=LEFT)
       
       # Create the next question button
-      nextButton = Button(topFrame, text="Next Question", command=lambda: nextGame(), font=("Helvetica", 16))
+      nextButton = Button(topFrame, image=nextimg, command=lambda: nextGame())
       nextButton.pack(side=LEFT)
 
    #create random array
