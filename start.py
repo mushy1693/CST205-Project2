@@ -14,6 +14,7 @@ result = []
 
 def main():
 
+   # Center the windows
    def center_window(w=300, h=200):
        # get screen width and height
        ws = root.winfo_screenwidth()
@@ -49,14 +50,17 @@ def main():
    # Check to see if the album is correct or incorrect
    # Show popup alerting user the result they got
    def check(getCheck):
-
       if(getCheck == "correct"):
         correctLabel = 'correct'
+        photo = PhotoImage(file="pic/correct.gif")
       else:
         correctLabel = 'incorrect'
+        photo = PhotoImage(file="pic/incorrect.gif")
       
       toplevel = Toplevel()
-      label1 = Label(toplevel, text=correctLabel, height=10, width=30, background = "tan4")
+      toplevel.geometry('%dx%d+%d+%d' % (200, 200, 620, 350))
+      label1 = Label(toplevel, text=correctLabel, background = "tan4", image = photo)
+      label1.photo = photo
       label1.pack()
    
    # Creates a random array to hold music test values
@@ -174,11 +178,13 @@ def main():
       button.image = albumCover[coverIndex]
       button.pack(side=LEFT)
 
+   # Send the user back to the menu
    def endgame():
       #https://www.daniweb.com/software-development/python/code/260268/restart-your-python-program-
       python = sys.executable
       os.execl(python, python, * sys.argv)
 
+   # Exit the program
    def exit():
       sys.exit()
 
@@ -192,6 +198,7 @@ def main():
    quit = Button(bottomFrame, text="Quit", command=lambda: exit(), font=("Helvetica", 18))
    quit.pack(side=BOTTOM)
 
+   # Set picture for play and next button
    playimg = PhotoImage(file="pic/play-button.gif")
    nextimg = PhotoImage(file="pic/next-button.gif")
 
@@ -209,6 +216,7 @@ def main():
       # destroy everything on the frame and move on to next game
       def nextGame():
         global count
+        
         if count == 4:
            endgame()
         else:
