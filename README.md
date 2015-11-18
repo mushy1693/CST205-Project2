@@ -1,4 +1,9 @@
-# CST205-Project2
-Welcome,
+# Music Trivia Application #
 
-This project take on the role of developing a music trivia application for our second project in CST 205 class.
+The application is built on Python. It allows the users to play a music and guess which artist was played.
+
+### Some of the functionality: ###
+
+* Score Tracker
+* Sound Integration
+* and much more.
